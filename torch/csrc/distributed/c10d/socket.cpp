@@ -717,10 +717,6 @@ std::unique_ptr<SocketImpl> SocketConnectOp::run() {
         host_,
         port_);
 
-    if (tryConnect(AF_INET6)) {
-      return std::move(socket_);
-    }
-
     C10D_DEBUG(
         "The client socket will attempt to connect to an IPv4 address of ({}, {}).",
         host_,

@@ -477,11 +477,6 @@ SocketListenOp::SocketListenOp(std::uint16_t port, const SocketOptions& opts)
 
 std::unique_ptr<SocketImpl> SocketListenOp::run() {
   if (opts_->prefer_ipv6()) {
-    C10D_DEBUG("The server socket will attempt to listen on an IPv6 address.");
-    if (tryListen(AF_INET6)) {
-      return std::move(socket_);
-    }
-
     C10D_DEBUG("The server socket will attempt to listen on an IPv4 address.");
     if (tryListen(AF_INET)) {
       return std::move(socket_);

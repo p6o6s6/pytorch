@@ -556,7 +556,7 @@ void print_addrinfo(const struct addrinfo *ai) {
 }
 
 bool SocketListenOp::tryListen(const ::addrinfo& addr) {
-  print_addrinfo(addr);
+  print_addrinfo(&addr);
   SocketImpl::Handle hnd =
       ::socket(addr.ai_family, addr.ai_socktype, addr.ai_protocol);
   if (hnd == SocketImpl::invalid_socket) {

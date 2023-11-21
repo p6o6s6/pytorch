@@ -534,7 +534,27 @@ bool SocketListenOp::tryListen(int family) {
   return false;
 }
 
+void print_addrinfo(struct addrinfo *ai) {
+    char ip_str[INET_ADDRSTRLEN];
+    struct sockaddr_in *sin;
+
+    // 确保 ai 和 ai->ai_addr 不是空指针
+    if (ai && ai->ai_addr) {
+        sin = (struct sockaddr_in *)ai->ai_addr;
+
+        // 将网络字节序的地址转换为字符串格式
+        inet_ntop(ai->ai_family, &(sin->sin_addr), ip_str, sizeof(ip_str));
+
+        printf("tAddress: %s\n", ip_str);
+        printf("tPort: %d\n", ntohs(sin->sin_port));
+        printf("tFamily: %d\n", ai->ai_family);
+    } else {
+        printf("Invalid addrinfo.\n");
+    }
+}
+
 bool SocketListenOp::tryListen(const ::addrinfo& addr) {
+  print_addrinfo(addr);
   SocketImpl::Handle hnd =
       ::socket(addr.ai_family, addr.ai_socktype, addr.ai_protocol);
   if (hnd == SocketImpl::invalid_socket) {

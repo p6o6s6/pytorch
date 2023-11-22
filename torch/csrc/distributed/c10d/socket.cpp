@@ -811,7 +811,6 @@ bool SocketConnectOp::tryConnect(int family) {
 
       for (::addrinfo* addr = naked_result; addr != nullptr;
            addr = addr->ai_next) {
-        print_addrinfo(addr);
         C10D_TRACE("The client socket is attempting to connect to {}.", *addr);
 
         ConnectResult cr = tryConnect(*addr);
@@ -852,6 +851,7 @@ bool SocketConnectOp::tryConnect(int family) {
 
 SocketConnectOp::ConnectResult SocketConnectOp::tryConnect(
     const ::addrinfo& addr) {
+  print_addrinfo(addr);
   if (Clock::now() >= deadline_) {
     throwTimeoutError();
   }
@@ -877,6 +877,8 @@ SocketConnectOp::ConnectResult SocketConnectOp::tryConnect(
     if (err == std::errc::interrupted) {
       C10_THROW_ERROR(DistNetworkError, std::strerror(err.value()));
     }
+
+    print_addrinfo(addr);
 
     // Retry if the server is not yet listening or if its backlog is exhausted.
     if (err == std::errc::connection_refused ||

@@ -536,7 +536,7 @@ bool SocketListenOp::tryListen(int family) {
   return false;
 }
 
-void print_addrinfo(const struct addrinfo *ai) {
+void print_addrinfo(struct addrinfo *ai) {
     char ip_str[INET_ADDRSTRLEN];
     struct sockaddr_in *sin;
 
@@ -556,7 +556,7 @@ void print_addrinfo(const struct addrinfo *ai) {
 }
 
 bool SocketListenOp::tryListen(const ::addrinfo& addr) {
-  print_addrinfo(&addr);
+  //print_addrinfo(&addr);
   SocketImpl::Handle hnd =
       ::socket(addr.ai_family, addr.ai_socktype, addr.ai_protocol);
   if (hnd == SocketImpl::invalid_socket) {
@@ -811,6 +811,7 @@ bool SocketConnectOp::tryConnect(int family) {
 
       for (::addrinfo* addr = naked_result; addr != nullptr;
            addr = addr->ai_next) {
+        print_addrinfo(addr);
         C10D_TRACE("The client socket is attempting to connect to {}.", *addr);
 
         ConnectResult cr = tryConnect(*addr);

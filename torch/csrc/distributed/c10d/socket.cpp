@@ -760,6 +760,8 @@ std::unique_ptr<SocketImpl> SocketConnectOp::run() {
     }
   }
 
+  std::cout << "host network address: " << host_ << "::" << port_ << std::endl;
+
   auto msg = fmt::format(
       "The client socket has failed to connect to any network address of ({}, {}).",
       host_,

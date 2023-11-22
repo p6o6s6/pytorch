@@ -792,6 +792,7 @@ bool SocketConnectOp::tryConnect(int family) {
     ::addrinfo* naked_result = nullptr;
     // patternlint-disable cpp-dns-deps
     int r = ::getaddrinfo(host_, port_.c_str(), &hints, &naked_result);
+    std::cout << "getaddrinfo host network address: " << host_ << "::" << port_ << std::endl;
     if (r != 0) {
       const char* gai_err = ::gai_strerror(r);
 

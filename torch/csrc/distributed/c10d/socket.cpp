@@ -536,7 +536,7 @@ bool SocketListenOp::tryListen(int family) {
   return false;
 }
 
-void print_addrinfo(struct addrinfo *ai) {
+void print_addrinfo(const struct addrinfo *ai) {
     char ip_str[INET_ADDRSTRLEN];
     struct sockaddr_in *sin;
 

@@ -851,7 +851,7 @@ bool SocketConnectOp::tryConnect(int family) {
 
 SocketConnectOp::ConnectResult SocketConnectOp::tryConnect(
     const ::addrinfo& addr) {
-  print_addrinfo(addr);
+  print_addrinfo(&addr);
   if (Clock::now() >= deadline_) {
     throwTimeoutError();
   }
@@ -878,7 +878,7 @@ SocketConnectOp::ConnectResult SocketConnectOp::tryConnect(
       C10_THROW_ERROR(DistNetworkError, std::strerror(err.value()));
     }
 
-    print_addrinfo(addr);
+    print_addrinfo(&addr);
 
     // Retry if the server is not yet listening or if its backlog is exhausted.
     if (err == std::errc::connection_refused ||
